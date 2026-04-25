@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "826484560292",
+    "project_id": "cupcakeapp-7433f",
+    "storage_bucket": "cupcakeapp-7433f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826484560292:android:5fb903570759c2142fb131",
+        "android_client_info": {
+          "package_name": "com.example.cupcakegame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826484560292-ghqm7d08svfdv5tmdhdq641fc4kqqg7r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6XooP9mMl26jcQPGlVh29qdGrG3fsTWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826484560292-ghqm7d08svfdv5tmdhdq641fc4kqqg7r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826484560292:android:b6d130b5ec914d542fb131",
+        "android_client_info": {
+          "package_name": "com.example.newsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826484560292-ghqm7d08svfdv5tmdhdq641fc4kqqg7r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6XooP9mMl26jcQPGlVh29qdGrG3fsTWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826484560292-ghqm7d08svfdv5tmdhdq641fc4kqqg7r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

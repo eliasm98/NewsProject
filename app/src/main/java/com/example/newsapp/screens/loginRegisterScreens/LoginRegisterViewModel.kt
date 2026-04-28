@@ -19,23 +19,44 @@ class LoginRegisterViewModel @Inject constructor(
     var loginSuccess by mutableStateOf(false)
     var registrationSuccess by mutableStateOf(false)
 
+    var isLoadingLogin by mutableStateOf(false)
+        private set
+
+    var isLoadingRegister by mutableStateOf(false)
+        private set
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
+            isLoadingLogin = true
             val result = firebaseRepository.login(email, password)
-            if(result.isSuccess) {
+            if (result.isSuccess) {
                 loginSuccess = true
+            } else {
+                errorMessage = when (result.exceptionOrNull()?.message) {
+                    "The email address is badly formatted." -> "Invalid email"
+                    "The supplied auth credential is incorrect, malformed or has expired." -> "Invalid password"
+                    else -> "An error occurred"
+                }
             }
-
+            isLoadingLogin = false
         }
     }
 
     fun register(email: String, password: String, firstName: String, lastName: String) {
         viewModelScope.launch {
+            isLoadingRegister = true
             val result = firebaseRepository.register(email, password, firstName, lastName)
-            if(result.isSuccess){
+            if (result.isSuccess) {
                 registrationSuccess = true
+            } else {
+                errorMessage = when (result.exceptionOrNull()?.message) {
+                    "The email address is badly formatted." -> "Invalid email"
+                    "The email address is already in use by another account" -> "he email address is already in use by another account"
+                    "The supplied auth credential is incorrect, malformed or has expired." -> "Invalid password"
+                    else -> "An error occurred"
+                }
             }
+            isLoadingRegister = false
         }
     }
 }

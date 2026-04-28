@@ -93,9 +93,7 @@ class MainActivity : ComponentActivity() {
                         composable (route = Screens.Register.name){
                             RegisterScreen(navController = navController)
                         }
-
                     }
-
                 }
             }
         }

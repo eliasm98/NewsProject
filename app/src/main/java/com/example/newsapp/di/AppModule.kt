@@ -1,16 +1,10 @@
 package com.example.newsapp.di
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.newsapp.data.api.NewsAPI
 import com.example.newsapp.data.datastore.NewsDatastore
-import com.example.newsapp.data.datastore.UserDatastore
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,12 +25,6 @@ object AppModule {
     @Singleton
     fun provideNewsDatastore(@ApplicationContext context: Context): NewsDatastore {
         return NewsDatastore(context)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUserDatastore(@ApplicationContext context: Context): UserDatastore {
-        return UserDatastore(context)
     }
 
     @Provides

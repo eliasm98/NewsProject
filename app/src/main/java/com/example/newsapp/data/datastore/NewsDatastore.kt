@@ -10,11 +10,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
+
 private val Context.dataStore by preferencesDataStore(name = "news_cache")
 
-class NewsDatastore(private val context: Context) {
-    private val NEWS_KEY = stringPreferencesKey("cached_articles")
-
+class NewsDatastore (private val context: Context) {
+    companion object {
+        private val NEWS_KEY = stringPreferencesKey("cached_articles")
+    }
     // saves the whole NewsResults object (which already contains the list inside)
     suspend fun saveArticles(newsResult: NewsResult) {
         val json = Gson().toJson(newsResult)

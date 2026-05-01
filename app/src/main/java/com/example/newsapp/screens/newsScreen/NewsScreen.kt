@@ -30,7 +30,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,10 +42,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.newsapp.data.api.Article
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
 fun NewsScreen(
@@ -56,10 +58,6 @@ fun NewsScreen(
     val articles by viewModel.articles.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val context = LocalContext.current
-
-    LaunchedEffect(Unit) {
-        viewModel.refresh()
-    }
 
     if (articles.isEmpty()) {
         Column(
@@ -91,43 +89,43 @@ fun NewsScreen(
 
 @Composable
 fun ArticleCard(article: Article, context: android.content.Context) {
-    // Survives recomposition and lazy list recycling
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Column {
-            // --- Image (tapping opens the URL) ---
+        Row(
+            modifier = Modifier
+                .padding(12.dp)
+                .clickable { expanded = !expanded }
+        ) {
             AsyncImage(
                 model = article.image,
                 contentDescription = article.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                    .size(64.dp)
+                    .clip(RoundedCornerShape(8.dp))
                     .clickable {
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
                         context.startActivity(intent)
                     }
             )
-
-            // --- Title row + chevron (tapping toggles the body) ---
-            Column(modifier = Modifier.padding(12.dp)) {
+            Spacer(modifier = Modifier.width(12.dp))
+            Column(modifier = Modifier.weight(1f)) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { expanded = !expanded },
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         text = article.title,
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = if (expanded) Int.MAX_VALUE else 2,
+                        overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f)
                     )
                     Icon(
@@ -138,15 +136,12 @@ fun ArticleCard(article: Article, context: android.content.Context) {
                         contentDescription = if (expanded) "Collapse" else "Expand"
                     )
                 }
-
                 Spacer(modifier = Modifier.height(4.dp))
-
                 Text(
                     text = article.dateTime,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-
-                // --- Animated body dropdown ---
                 AnimatedVisibility(
                     visible = expanded && article.body != null,
                     enter = expandVertically(),
